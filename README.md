@@ -1,6 +1,6 @@
 # IslandsEngine
 
-**TODO: Add description**
+Islands game (battleship) code from Functional Web Development with Elixir OTP and phoenix
 
 ## Installation
 
