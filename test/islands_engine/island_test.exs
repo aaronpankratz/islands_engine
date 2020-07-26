@@ -31,4 +31,28 @@ defmodule IslandTest do
     assert not Island.overlaps?(square, l_shape)
     assert not Island.overlaps?(dot, l_shape)
   end
+
+  test "guess miss" do
+    {:ok, dot_coordinate} = Coordinate.new(4, 4)
+    {:ok, dot} = Island.new(:dot, dot_coordinate)
+    {:ok, guess_coordinate} = Coordinate.new(2, 2)
+    result = Island.guess(dot, guess_coordinate)
+    assert result == :miss
+  end
+
+  test "guess hit" do
+    {:ok, dot_coordinate} = Coordinate.new(4, 4)
+    {:ok, dot} = Island.new(:dot, dot_coordinate)
+    {:ok, guess_coordinate} = Coordinate.new(4, 4)
+    {:hit, result} = Island.guess(dot, guess_coordinate)
+    assert MapSet.size(result.hit_coordinates) == 1
+  end
+
+  test "detects forested" do
+    {:ok, dot_coordinate} = Coordinate.new(4, 4)
+    {:ok, dot} = Island.new(:dot, dot_coordinate)
+    {:ok, guess_coordinate} = Coordinate.new(4, 4)
+    {:hit, result} = Island.guess(dot, guess_coordinate)
+    assert Island.forested?(result)
+  end
 end
