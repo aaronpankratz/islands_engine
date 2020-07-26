@@ -8,14 +8,14 @@ defmodule GuessesTest do
     assert MapSet.size(guesses.misses) == 0
   end
 
-  test "can add hit coordinates" do
+  test "adds hit coordinates" do
     guesses = Guesses.new()
     {:ok, coord1} = Coordinate.new(1, 1)
     guesses = Guesses.add(guesses, :hit, coord1)
     assert MapSet.size(guesses.hits) == 1
   end
 
-  test "can add miss coordinates" do
+  test "adds miss coordinates" do
     guesses = Guesses.new()
     {:ok, coord1} = Coordinate.new(1, 1)
     guesses = Guesses.add(guesses, :miss, coord1)
@@ -25,9 +25,9 @@ defmodule GuessesTest do
   test "does not duplicate coordinates" do
     guesses = Guesses.new()
     {:ok, coord1} = Coordinate.new(1, 1)
-    guesses = update_in(guesses.hits, &MapSet.put(&1, coord1))
+    guesses = Guesses.add(guesses, :hit, coord1)
     assert MapSet.size(guesses.hits) == 1
-    guesses = update_in(guesses.hits, &MapSet.put(&1, coord1))
+    guesses = Guesses.add(guesses, :hit, coord1)
     assert MapSet.size(guesses.hits) == 1 
   end
 end

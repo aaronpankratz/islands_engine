@@ -18,6 +18,17 @@ defmodule IslandTest do
     {:ok, coord} = Coordinate.new(10, 10)
     {:error, message} = Island.new(:l_shape, coord)
     assert message == :invalid_coordinate
- 
+  end
+
+  test "detects overlaps" do
+    {:ok, square_coordinate} = Coordinate.new(1, 1)
+    {:ok, square} = Island.new(:square, square_coordinate)
+    {:ok, dot_coordinate} = Coordinate.new(1, 2)
+    {:ok, dot} = Island.new(:dot, dot_coordinate)
+    {:ok, l_shape_coordinate} = Coordinate.new(5, 5)
+    {:ok, l_shape} = Island.new(:l_shape, l_shape_coordinate)
+    assert Island.overlaps?(square, dot)
+    assert not Island.overlaps?(square, l_shape)
+    assert not Island.overlaps?(dot, l_shape)
   end
 end
