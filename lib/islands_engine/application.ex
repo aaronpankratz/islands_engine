@@ -13,7 +13,7 @@ defmodule IslandsEngine.Application do
       IslandsEngine.GameSupervisor
     ]
 
-    :ets.new(:game_state, [:public, :named_table])
+    :dets.open_file(:game_state, [])
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: IslandsEngine.Supervisor]

@@ -29,7 +29,7 @@ defmodule IslandsEngine.Game do
     GenServer.call(game, {:guess_coordinate, player, row, col})
 
   def terminate({:shutdown, :timeout}, state_data) do
-    :ets.delete(:game_state, state_data.player1.name)
+    :dets.delete(:game_state, state_data.player1.name)
     :ok
   end
   def terminate(_reason, _state), do: :ok
@@ -39,11 +39,11 @@ defmodule IslandsEngine.Game do
   end
   def handle_info({:set_state, name}, _state_data) do
     state_data = 
-    case :ets.lookup(:game_state, name) do
+    case :dets.lookup(:game_state, name) do
       [] -> fresh_state(name)
       [{_key, state}] -> state
     end
-    :ets.insert(:game_state, {name, state_data})
+    :dets.insert(:game_state, {name, state_data})
     {:noreply, state_data, @timeout}
   end
 
@@ -149,7 +149,7 @@ defmodule IslandsEngine.Game do
   end
 
   defp reply_success(state_data, reply) do
-    :ets.insert(:game_state, {state_data.player1.name, state_data})
+    :dets.insert(:game_state, {state_data.player1.name, state_data})
     {:reply, reply, state_data, @timeout}
   end
 end
